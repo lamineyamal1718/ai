@@ -1,0 +1,31 @@
+def water_jug_problem():
+    jug1, jug2 = 0, 0
+    cap1, cap2 = 4, 3
+    target = 2
+    
+    steps = []
+    
+    # Step 1: Fill jug2 to capacity
+    jug2 = cap2
+    steps.append((jug1, jug2))
+    
+    # Step 2: Pour jug2 into jug1
+    jug1, jug2 = jug2, 0
+    steps.append((jug1, jug2))
+    
+    # Step 3: Fill jug2 again
+    jug2 = cap2
+    steps.append((jug1, jug2))
+    
+    # Step 4: Pour from jug2 to jug1 until jug1 is full
+    transfer = cap1 - jug1
+    jug1 += transfer
+    jug2 -= transfer
+    steps.append((jug1, jug2))
+    
+    # Display all steps
+    for i, (x, y) in enumerate(steps):
+        print(f"Step {i+1}: jug1={x}, jug2={y}")
+
+# Run the water jug problem
+water_jug_problem()
