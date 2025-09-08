@@ -1,0 +1,47 @@
+from queue import PriorityQueue
+
+graph = {
+    'S': {'B': 4, 'C': 3},
+    'B': {'F': 5, 'E': 12},
+    'C': {'D': 7, 'E': 10},
+    'D': {'E': 2},
+    'E': {'G': 5},
+    'F': {'G': 16},
+    'G': {}
+}
+
+h = {
+    'S': 14, 'B': 12, 'C': 11,
+    'D': 6, 'E': 4, 'F': 11,
+    'G': 0
+}
+
+def a_star(start, goal):
+    pq = PriorityQueue()
+    pq.put((h[start], start))
+    parent = {start: None}
+    g = {start: 0}
+    
+    while not pq.empty():
+        f, node = pq.get()
+        
+        if node == goal:
+            path = []
+            while node:
+                path.append(node)
+                node = parent[node]
+            return path[::-1]
+        
+        for neighbor, cost in graph[node].items():
+            new_g = g[node] + cost
+            if neighbor not in g or new_g < g[neighbor]:
+                g[neighbor] = new_g
+                f = new_g + h[neighbor]
+                pq.put((f, neighbor))
+                parent[neighbor] = node
+    
+    return None
+
+# Find shortest path from S to G
+path = a_star('S', 'G')
+print("Shortest path:", path)
